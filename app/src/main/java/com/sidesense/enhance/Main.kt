@@ -32,6 +32,14 @@ class Main : XposedModule() {
         } catch (_: Throwable) {
             // 静默: Hook 安装失败不影响应用本身
         }
+
+        // 新增: "More apps" 列表按字母序排序
+        try {
+            SsLog.i { "onPackageReady: installing sorter" }
+            MoreAppsSorter.install(this, param.classLoader)
+        } catch (t: Throwable) {
+            SsLog.e(t) { "install failed" }
+        }
     }
 
     private fun installHooks(cl: ClassLoader) {
